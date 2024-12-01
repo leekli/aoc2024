@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestConvertInputToTwoLists_ReturnsEmptySlicesForEmptyInput(test *testing.T) {
 	input := ""
@@ -197,5 +199,171 @@ func TestPart1_ReturnsZeroForMultipleNumsLists(test *testing.T) {
 
 	if output != 11 {
 		test.Errorf("Expected: 11, Received: %d", output)
+	}
+}
+
+func TestCountRightHandListNumFrequency_ReturnsMapOfNumFrequencies_SingleNumList(test *testing.T) {
+	input := []int{3}
+
+	output := CountRightHandListNumFrequency(input)
+
+	valueToCheck, exists := output[3]
+
+	if !exists && valueToCheck != 1 {
+		test.Errorf("Expected: 1, Received: %d", valueToCheck)
+	}
+}
+
+func TestCountRightHandListNumFrequency_ReturnsMapOfNumFrequencies_MultipleNums(test *testing.T) {
+	input := []int{3, 3, 3}
+
+	output := CountRightHandListNumFrequency(input)
+
+	valueToCheck, exists := output[3]
+
+	if !exists && valueToCheck != 3 {
+		test.Errorf("Expected: 3, Received: %d", valueToCheck)
+	}
+
+	input = []int{3, 3, 3, 4, 5, 9}
+
+	output = CountRightHandListNumFrequency(input)
+
+	valueToCheck, exists = output[3]
+
+	if !exists && valueToCheck != 3 {
+		test.Errorf("Expected: 3, Received: %d", valueToCheck)
+	}
+
+	valueToCheck, exists = output[4]
+
+	if !exists && valueToCheck != 1 {
+		test.Errorf("Expected: 4, Received: %d", valueToCheck)
+	}
+
+	valueToCheck, exists = output[5]
+
+	if !exists && valueToCheck != 1 {
+		test.Errorf("Expected: 1, Received: %d", valueToCheck)
+	}
+
+	valueToCheck, exists = output[9]
+
+	if !exists && valueToCheck != 1 {
+		test.Errorf("Expected: 1, Received: %d", valueToCheck)
+	}
+}
+
+func TestCountSimiliarityScore_ReturnsTotalForSingleNum_ZeroFrequency(test *testing.T) {
+	numList := []int{3}
+
+	numFrequencyMap := make(map[int]int)
+
+	output := CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+}
+
+func TestCountSimiliarityScore_ReturnsTotalForSingleNum_SingleFrequency(test *testing.T) {
+	numList := []int{3}
+
+	numFrequencyMap := make(map[int]int)
+	numFrequencyMap[3] = 1
+
+	output := CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 3 {
+		test.Errorf("Expected: 3, Received: %d", output)
+	}
+
+	numList = []int{3}
+
+	numFrequencyMap = make(map[int]int)
+	numFrequencyMap[3] = 3
+
+	output = CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 9 {
+		test.Errorf("Expected: 9, Received: %d", output)
+	}
+
+	numList = []int{4}
+
+	numFrequencyMap = make(map[int]int)
+	numFrequencyMap[4] = 1
+
+	output = CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 4 {
+		test.Errorf("Expected: 4, Received: %d", output)
+	}
+
+	numList = []int{2}
+
+	numFrequencyMap = make(map[int]int)
+
+	output = CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+
+	numList = []int{1}
+
+	numFrequencyMap = make(map[int]int)
+
+	output = CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+}
+
+func TestCountSimiliarityScore_ReturnsTotalForMultiNumsAndFrequencies(test *testing.T) {
+	numList := []int{3, 4, 2, 1, 3, 3}
+
+	numFrequencyMap := make(map[int]int)
+	numFrequencyMap[3] = 3
+	numFrequencyMap[4] = 1
+
+	output := CountSimiliarityScore(numList, numFrequencyMap)
+
+	if output != 31 {
+		test.Errorf("Expected: 31, Received: %d", output)
+	}
+}
+
+func TestPart2_CorrectTotalReturned_SingleNumList(test *testing.T) {
+	input := "3   4"
+
+	output := Part2(input)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+
+	input = "3   3"
+
+	output = Part2(input)
+
+	if output != 3 {
+		test.Errorf("Expected: 3, Received: %d", output)
+	}
+}
+
+func TestPart2_CorrectTotalReturned_MultipleNumsList(test *testing.T) {
+	input := `3   4
+4   3
+2   5
+1   3
+3   9
+3   3`
+
+	output := Part2(input)
+
+	if output != 31 {
+		test.Errorf("Expected: 31, Received: %d", output)
 	}
 }

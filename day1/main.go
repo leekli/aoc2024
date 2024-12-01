@@ -20,6 +20,11 @@ func main() {
 	p1Output := Part1(rawInput)
 
 	fmt.Printf("Day 1, Part 1 Output: %d\n", p1Output)
+
+	// Part 2
+	p2Output := Part2(rawInput)
+
+	fmt.Printf("Day 1, Part 2 Output: %d\n", p2Output)
 }
 
 func Part1(input string) int {
@@ -30,6 +35,18 @@ func Part1(input string) int {
 	sortedListOne, sortedListTwo := SortBothNumLists(numListOne, numListTwo)
 
 	total = CountDistancesBetweenListNums(sortedListOne, sortedListTwo)
+
+	return total
+}
+
+func Part2(input string) int {
+	total := 0
+
+	numListOne, numListTwo := ConvertInputToTwoLists(input)
+
+	numFrequencyList := CountRightHandListNumFrequency(numListTwo)
+
+	total = CountSimiliarityScore(numListOne, numFrequencyList)
 
 	return total
 }
@@ -93,4 +110,36 @@ func CountDistancesBetweenListNums(numListOne []int, numListTwo []int) int {
 	}
 
 	return totalDistance
+}
+
+func CountRightHandListNumFrequency(inputList []int) map[int]int {
+	numFrequencies := make(map[int]int)
+
+	for i := 0; i < len(inputList); i++ {
+		if _, exists := numFrequencies[inputList[i]]; exists {
+			numFrequencies[inputList[i]] += 1
+        } else {
+            numFrequencies[inputList[i]] = 1
+        }
+    }
+
+	return numFrequencies
+}
+
+func CountSimiliarityScore(numList []int, numFrequencyMap map[int]int) int {
+	total := 0
+
+	for i := 0; i < len(numList); i++ {
+		numFrequencyValue, exists := numFrequencyMap[numList[i]]
+
+		if exists {
+			sumToAdd := numList[i] * numFrequencyValue
+
+			total += sumToAdd
+		} else {
+			total += numList[i] * 0
+		}
+	}
+
+	return total
 }
