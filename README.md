@@ -2,9 +2,9 @@
 
 ### 🥏 In Go
 
-![](https://img.shields.io/badge/day%20📅-00-blue)
-![](https://img.shields.io/badge/stars%20⭐-00-yellow)
-![](https://img.shields.io/badge/days%20completed-00-red)
+![](https://img.shields.io/badge/day%20📅-2-blue)
+![](https://img.shields.io/badge/stars%20⭐-3-yellow)
+![](https://img.shields.io/badge/days%20completed-1-red)
 
 ### Solutions
 
