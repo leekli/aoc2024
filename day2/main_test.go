@@ -243,3 +243,65 @@ func TestCountTotalSafeLevels_ReturnsTotalSafeLevels(test *testing.T) {
 		test.Errorf("Expected: 2, Received: %d", output)
 	}
 }
+
+func TestCountTotalSafeLevels_Part2_ReturnsZeroForNoLevelsAbleToRemove(test *testing.T) {
+	input := [][]int{{1, 2, 7, 8, 9}}
+
+	output := CountTotalSafeLevels_Part2(input)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+
+	input = [][]int{{9, 7, 6, 2, 1}}
+
+	output = CountTotalSafeLevels_Part2(input)
+
+	if output != 0 {
+		test.Errorf("Expected: 0, Received: %d", output)
+	}
+}
+
+func TestCountTotalSafeLevels_Part2_ReturnsSafeTotalForLevelsAbleToRemove_Single(test *testing.T) {
+	input := [][]int{{7, 6, 4, 2, 1}}
+
+	output := CountTotalSafeLevels_Part2(input)
+
+	if output != 1 {
+		test.Errorf("Expected: 1, Received: %d", output)
+	}
+
+	input = [][]int{{1, 3, 6, 7, 9}}
+
+	output = CountTotalSafeLevels_Part2(input)
+
+	if output != 1 {
+		test.Errorf("Expected: 1, Received: %d", output)
+	}
+
+	input = [][]int{{1, 3, 2, 4, 5}}
+
+	output = CountTotalSafeLevels_Part2(input)
+
+	if output != 1 {
+		test.Errorf("Expected: 1, Received: %d", output)
+	}
+
+	input = [][]int{{8, 6, 4, 4, 1}}
+
+	output = CountTotalSafeLevels_Part2(input)
+
+	if output != 1 {
+		test.Errorf("Expected: 1, Received: %d", output)
+	}
+}
+
+func TestCountTotalSafeLevels_Part2_ReturnsSafeTotalForLevelsAbleToRemove_Multiple(test *testing.T) {
+	input := [][]int{{7, 6, 4, 2, 1}, {1, 2, 7, 8, 9}, {9, 7, 6, 2, 1}, {1, 3, 2, 4, 5}, {8, 6, 4, 4, 1}, {1, 3, 6, 7, 9}}
+
+	output := CountTotalSafeLevels_Part2(input)
+
+	if output != 4 {
+		test.Errorf("Expected: 4, Received: %d", output)
+	}
+}

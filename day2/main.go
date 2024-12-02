@@ -21,9 +21,9 @@ func main() {
 	fmt.Printf("Day 2, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day X, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 2, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -36,7 +36,15 @@ func Part1(input string) int {
 	return safeLevels
 }
 
-func Part2() {}
+func Part2(input string) int {
+	safeLevels := 0
+
+	string2DArray := StringTo2DArray(input)
+
+	safeLevels = CountTotalSafeLevels_Part2(string2DArray)
+
+	return safeLevels
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
@@ -78,6 +86,37 @@ func CountTotalSafeLevels(levels [][]int) int {
 
 	for i := 0; i < len(levels); i++ {
 		isLevelSafe := IsLevelSafe(levels[i])
+
+		if isLevelSafe {
+			totalLevelsSafe++
+		}
+	}
+
+	return totalLevelsSafe
+}
+
+func CountTotalSafeLevels_Part2(levels [][]int) int {
+	totalLevelsSafe := 0
+
+	for i := 0; i < len(levels); i++ {
+		isLevelSafe := IsLevelSafe(levels[i])
+
+		if !isLevelSafe {
+			for j := 0; j < len(levels[i]); j++ {
+				copiedLevel := make([]int, len(levels[i]))
+
+				copy(copiedLevel, levels[i])
+
+				copiedLevel = RemoveSliceElement(copiedLevel, j)
+
+				isLevelSafe = IsLevelSafe(copiedLevel)
+
+				if isLevelSafe {
+					break
+				}
+			}
+		}
+
 
 		if isLevelSafe {
 			totalLevelsSafe++
@@ -150,4 +189,12 @@ func IsNumChangingWithinRange(num1 int, num2 int) bool {
     }
 
 	return isNumWithinRange
+}
+
+func RemoveSliceElement(report []int, indexToRemove int) []int {
+	if indexToRemove < 0 || indexToRemove >= len(report) {
+        return report
+    }
+
+    return append(report[:indexToRemove], report[indexToRemove+1:]...)
 }
