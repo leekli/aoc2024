@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 )
 
@@ -21,9 +22,9 @@ func main() {
 	fmt.Printf("Day 3, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day X, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 3, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -36,7 +37,13 @@ func Part1(input string) int {
 	return total
 }
 
-func Part2() {}
+func Part2(input string) int {
+	total := 0
+
+	total = CorruptedMemory_Part2(input)
+
+	return total
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
@@ -92,6 +99,60 @@ func SumAllMuls(mulsFound []string) int {
 		total += mulTotal
 	}
 
-
 	return total
+}
+
+func CorruptedMemory_Part2(input string) int {
+	sumTotal := 0
+		
+	// 'At the beginning of the program, mul instructions are enabled' - from AOC instructions
+	mulEnabled := true
+
+	// Regex patterns required
+	mulPattern := regexp.MustCompile(`mul\(([0-9]{1,3}),([0-9]{1,3})\)`)
+    doPattern := regexp.MustCompile(`do\(\)`)
+    dontPattern := regexp.MustCompile(`don't\(\)`)
+
+    // Find all matches for mul(XXX,XXX) instructions and do() and don't() events, use string indexes
+    mulMatches := mulPattern.FindAllStringSubmatchIndex(input, -1)
+    doMatches := doPattern.FindAllStringIndex(input, -1)
+    dontMatches := dontPattern.FindAllStringIndex(input, -1)
+
+    // Combine all matches into a single slice of events to work through
+    events := make([][3]int, 0, len(mulMatches)+len(doMatches)+len(dontMatches))
+
+    for _, match := range mulMatches {
+        events = append(events, [3]int{match[0], match[len(match)-1], 0}) // 0 is a mul() event
+    }
+    for _, match := range doMatches {
+        events = append(events, [3]int{match[0], match[len(match)-1], 1}) // 1 is a do() event
+    }
+    for _, match := range dontMatches {
+        events = append(events, [3]int{match[0], match[len(match)-1], 2}) // 2 is a don't() event
+    }
+
+    // Sort all events by their starting index
+    sort.Slice(events, func(i, j int) bool {
+        return events[i][0] < events[j][0]
+    })
+
+    // Process all the events in order
+    for _, event := range events {
+        switch event[2] {
+			case 0: // A mul() event
+				if mulEnabled {
+					singleMul := input[event[0]:event[1] + 1]
+
+					singleSum := MultiplySingleMul(singleMul)
+
+					sumTotal += singleSum
+				}
+			case 1: // A do() event allows future mul's to happen
+				mulEnabled = true
+			case 2: // A don't() event stops future mul's from happening
+				mulEnabled = false
+        }
+    }
+	
+	return sumTotal
 }

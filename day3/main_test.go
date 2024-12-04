@@ -239,3 +239,13 @@ func TestSumAllMuls_ReturnsTotalForManyMuls(test *testing.T) {
 		test.Errorf("Expected: 161, Received: %d", output)
 	}
 }
+
+func TestCorruptedMemory_Part2_CorrectTestOutput(test *testing.T) {
+	input := "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+
+	output := CorruptedMemory_Part2(input)
+
+	if output != 48 {
+		test.Errorf("Expected: 48, Received: %d", output)
+	}
+}
