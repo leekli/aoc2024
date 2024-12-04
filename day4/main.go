@@ -95,20 +95,6 @@ func CanLookHorizontally(grid [][]string, startingRow int, startingCol int) bool
 }
 
 func CanLookVertically(grid [][]string, startingRow int, startingCol int) bool {
-	// canLookVertical := false
-
-	// if len(grid) == 0 {
-	// 	return canLookVertical
-	// }
-
-	// indexToCheck := startingRow - 3
-
-	// if indexToCheck >= 0 && indexToCheck < len(grid) {
-	// 	canLookVertical = true
-	// }
-
-	// return canLookVertical
-
 	canLookVertical := false
 
 	if len(grid) == 0 {
