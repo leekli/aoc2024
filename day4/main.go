@@ -20,9 +20,9 @@ func main() {
 	fmt.Printf("Day 4, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day X, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 4, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -35,7 +35,15 @@ func Part1(input string) int {
 	return total
 }
 
-func Part2() {}
+func Part2(input string) int {
+	total := 0
+
+	wordSearchGrid := StringTo2DArray(input)
+
+	total = CheckTheX_Part2(wordSearchGrid)
+
+	return total
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
@@ -78,14 +86,14 @@ func IsXmasFound(strA string, strB string, strC string, strD string) bool {
 	return xmasFound
 }
 
-func CanLookHorizontally(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookHorizontally(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookHorizontal := false
 
 	if len(grid) == 0 {
 		return canLookHorizontal
 	}
 
-	indexToCheck := startingCol + 3
+	indexToCheck := startingCol + posToChange
 
 	if indexToCheck >= 0 && indexToCheck < len(grid[startingRow]) {
 		canLookHorizontal = true
@@ -94,15 +102,15 @@ func CanLookHorizontally(grid [][]string, startingRow int, startingCol int) bool
 	return canLookHorizontal
 }
 
-func CanLookVertically(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookVertically(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookVertical := false
 
 	if len(grid) == 0 {
 		return canLookVertical
 	}
 
-	indexToCheckUp := startingRow - 3
-	indexToCheckDown := startingRow + 3
+	indexToCheckUp := startingRow - posToChange
+	indexToCheckDown := startingRow + posToChange
 
 	if (indexToCheckUp >= 0 && indexToCheckUp < len(grid)) || (indexToCheckDown >= 0 && indexToCheckDown < len(grid)) {
 		canLookVertical = true
@@ -111,14 +119,14 @@ func CanLookVertically(grid [][]string, startingRow int, startingCol int) bool {
 	return canLookVertical
 }
 
-func CanLookBackwards(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookBackwards(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookBackward := false
 
 	if len(grid) == 0 {
 		return canLookBackward
 	}
 
-	indexToCheck := startingCol - 3
+	indexToCheck := startingCol - posToChange
 
 	if indexToCheck >= 0 && indexToCheck < len(grid[startingRow]) {
 		canLookBackward = true
@@ -127,15 +135,15 @@ func CanLookBackwards(grid [][]string, startingRow int, startingCol int) bool {
 	return canLookBackward
 }
 
-func CanLookDiagonallyTopLeft(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookDiagonallyTopLeft(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookDiagonal := false
 
 	if len(grid) == 0 {
 		return canLookDiagonal
 	}
 
-	rowToCheck := startingRow - 3
-	colToCheck := startingCol - 3
+	rowToCheck := startingRow - posToChange
+	colToCheck := startingCol - posToChange
 
 	if rowToCheck >= 0 && rowToCheck < len(grid) && colToCheck >= 0 && colToCheck < len(grid[startingRow]) {
 		canLookDiagonal = true
@@ -144,15 +152,15 @@ func CanLookDiagonallyTopLeft(grid [][]string, startingRow int, startingCol int)
 	return canLookDiagonal
 }
 
-func CanLookDiagonallyTopRight(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookDiagonallyTopRight(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookDiagonal := false
 
 	if len(grid) == 0 {
 		return canLookDiagonal
 	}
 
-	rowToCheck := startingRow - 3
-	colToCheck := startingCol + 3
+	rowToCheck := startingRow - posToChange
+	colToCheck := startingCol + posToChange
 
 	if rowToCheck >= 0 && rowToCheck < len(grid) && colToCheck >= 0 && colToCheck < len(grid[startingRow]) {
 		canLookDiagonal = true
@@ -161,15 +169,15 @@ func CanLookDiagonallyTopRight(grid [][]string, startingRow int, startingCol int
 	return canLookDiagonal
 }
 
-func CanLookDiagonallyBottomLeft(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookDiagonallyBottomLeft(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookDiagonal := false
 
 	if len(grid) == 0 {
 		return canLookDiagonal
 	}
 
-	rowToCheck := startingRow + 3
-	colToCheck := startingCol - 3
+	rowToCheck := startingRow + posToChange
+	colToCheck := startingCol - posToChange
 
 	if rowToCheck >= 0 && rowToCheck < len(grid) && colToCheck >= 0 && colToCheck < len(grid[startingRow]) {
 		canLookDiagonal = true
@@ -178,15 +186,15 @@ func CanLookDiagonallyBottomLeft(grid [][]string, startingRow int, startingCol i
 	return canLookDiagonal
 }
 
-func CanLookDiagonallyBottomRight(grid [][]string, startingRow int, startingCol int) bool {
+func CanLookDiagonallyBottomRight(grid [][]string, startingRow int, startingCol int, posToChange int) bool {
 	canLookDiagonal := false
 
 	if len(grid) == 0 {
 		return canLookDiagonal
 	}
 
-	rowToCheck := startingRow + 3
-	colToCheck := startingCol + 3
+	rowToCheck := startingRow + posToChange
+	colToCheck := startingCol + posToChange
 
 	if rowToCheck >= 0 && rowToCheck < len(grid) && colToCheck >= 0 && colToCheck < len(grid[startingRow]) {
 		canLookDiagonal = true
@@ -202,7 +210,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 		for j := 0; j < len(wordSearchGrid[i]); j++ {
 			
 			// Check horizontally
-			if CanLookHorizontally(wordSearchGrid, i, j) {
+			if CanLookHorizontally(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i][j + 1]
 				strC := wordSearchGrid[i][j + 2]
@@ -214,7 +222,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check vertically upwards
-			if CanLookVertically(wordSearchGrid, i, j) && i - 3 >= 0 {
+			if CanLookVertically(wordSearchGrid, i, j, 3) && i - 3 >= 0 {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i - 1][j]
 				strC := wordSearchGrid[i - 2][j]
@@ -226,7 +234,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check vertically downwards
-			if CanLookVertically(wordSearchGrid, i, j) && i + 3 < len(wordSearchGrid) {
+			if CanLookVertically(wordSearchGrid, i, j, 3) && i + 3 < len(wordSearchGrid) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i + 1][j]
 				strC := wordSearchGrid[i + 2][j]
@@ -238,7 +246,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check backwards
-			if CanLookBackwards(wordSearchGrid, i, j) {
+			if CanLookBackwards(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i][j - 1]
 				strC := wordSearchGrid[i][j - 2]
@@ -250,7 +258,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check diagonally top-left
-			if CanLookDiagonallyTopLeft(wordSearchGrid, i, j) {
+			if CanLookDiagonallyTopLeft(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i - 1][j - 1]
 				strC := wordSearchGrid[i - 2][j - 2]
@@ -262,7 +270,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check diagonally top-right
-			if CanLookDiagonallyTopRight(wordSearchGrid, i, j) {
+			if CanLookDiagonallyTopRight(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i - 1][j + 1]
 				strC := wordSearchGrid[i - 2][j + 2]
@@ -274,7 +282,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check diagonally bottom-left
-			if CanLookDiagonallyBottomLeft(wordSearchGrid, i, j) {
+			if CanLookDiagonallyBottomLeft(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i + 1][j - 1]
 				strC := wordSearchGrid[i + 2][j - 2]
@@ -286,7 +294,7 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 
 			// Check diagonally bottom-right
-			if CanLookDiagonallyBottomRight(wordSearchGrid, i, j) {
+			if CanLookDiagonallyBottomRight(wordSearchGrid, i, j, 3) {
 				strA := wordSearchGrid[i][j]
 				strB := wordSearchGrid[i + 1][j + 1]
 				strC := wordSearchGrid[i + 2][j + 2]
@@ -298,6 +306,54 @@ func DoWordSearch_CountXmasFound(wordSearchGrid [][]string) int {
 			}
 		}
 	}
+
+	return total
+}
+
+func IsAValidX(grid [][]string, row int, col int) bool {
+	isValidX := false
+
+	topLeft := grid[row - 1][col - 1]
+	topRight := grid[row - 1][col + 1]
+	btmLeft := grid[row + 1][col - 1]
+	btmRight := grid[row + 1][col + 1]
+
+	if topLeft == "M" && btmRight == "S" && btmLeft == "M" && topRight == "S" {
+		isValidX = true
+	}
+
+	if topLeft == "M" && btmRight == "S" && btmLeft == "S" && topRight == "M" {
+		isValidX = true
+	}
+
+	if topLeft == "S" && btmRight == "M" && btmLeft == "M" && topRight == "S" {
+		isValidX = true
+	}
+
+	if topLeft == "S" && btmRight == "M" && btmLeft == "S" && topRight == "M" {
+		isValidX = true
+	}
+
+	return isValidX
+}
+
+func CheckTheX_Part2(wordSearchGrid [][]string) int {
+	total := 0
+	
+	for i := 0; i < len(wordSearchGrid); i++ {
+		for j := 0; j < len(wordSearchGrid[i]); j++ {
+			if wordSearchGrid[i][j] == "A" {
+				if 	CanLookDiagonallyTopLeft(wordSearchGrid, i, j, 1) && 
+					CanLookDiagonallyTopRight(wordSearchGrid, i, j, 1) && 
+					CanLookDiagonallyBottomLeft(wordSearchGrid, i, j, 1) && 
+					CanLookDiagonallyBottomRight(wordSearchGrid, i, j, 1) {
+					if IsAValidX(wordSearchGrid, i, j) {
+						total++
+					}
+				}
+			}
+		}
+	}	
 
 	return total
 }

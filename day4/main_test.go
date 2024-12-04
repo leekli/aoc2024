@@ -71,7 +71,7 @@ func TestIsXmasFound_ReturnsTrueForXmasFound(test *testing.T) {
 func TestCanLookHorizontally_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 	input := [][]string{{}}
 
-	output := CanLookHorizontally(input, 0, 0)
+	output := CanLookHorizontally(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -79,7 +79,7 @@ func TestCanLookHorizontally_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A"}, {"B", "B"}, {"C", "C"}, {"D", "D"}}
 
-	output = CanLookHorizontally(input, 0, 0)
+	output = CanLookHorizontally(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -87,7 +87,7 @@ func TestCanLookHorizontally_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A", "A"}, {"B", "B", "B"}, {"C", "C", "C"}, {"D", "D", "C"}}
 
-	output = CanLookHorizontally(input, 0, 0)
+	output = CanLookHorizontally(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -95,19 +95,19 @@ func TestCanLookHorizontally_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output = CanLookHorizontally(input, 0, 1)
+	output = CanLookHorizontally(input, 0, 1, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookHorizontally(input, 0, 2)
+	output = CanLookHorizontally(input, 0, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookHorizontally(input, 0, 3)
+	output = CanLookHorizontally(input, 0, 3, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -117,25 +117,25 @@ func TestCanLookHorizontally_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 func TestCanLookHorizontally_ReturnsTrueForValidArrayIndex(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookHorizontally(input, 0, 0)
+	output := CanLookHorizontally(input, 0, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookHorizontally(input, 1, 0)
+	output = CanLookHorizontally(input, 1, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookHorizontally(input, 2, 0)
+	output = CanLookHorizontally(input, 2, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookHorizontally(input, 3, 0)
+	output = CanLookHorizontally(input, 3, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
@@ -145,7 +145,7 @@ func TestCanLookHorizontally_ReturnsTrueForValidArrayIndex(test *testing.T) {
 func TestCanLookVertically_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 	input := [][]string{{}}
 
-	output := CanLookVertically(input, 0, 0)
+	output := CanLookVertically(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -153,13 +153,13 @@ func TestCanLookVertically_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A"}, {"B", "B"}, {"C", "C"}, {"D", "D"}}
 
-	output = CanLookVertically(input, 1, 0)
+	output = CanLookVertically(input, 1, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookVertically(input, 2, 0)
+	output = CanLookVertically(input, 2, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -169,25 +169,25 @@ func TestCanLookVertically_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 func TestCanLookVertically_ReturnsTrueForValidArrayIndex(test *testing.T) {
 	input := [][]string{{"A", "A"}, {"B", "B"}, {"C", "C"}, {"D", "D"}}
 
-	output := CanLookVertically(input, 3, 0)
+	output := CanLookVertically(input, 3, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookVertically(input, 3, 3)
+	output = CanLookVertically(input, 3, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookVertically(input, 3, 2)
+	output = CanLookVertically(input, 3, 2, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookVertically(input, 3, 1)
+	output = CanLookVertically(input, 3, 1, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
@@ -195,7 +195,7 @@ func TestCanLookVertically_ReturnsTrueForValidArrayIndex(test *testing.T) {
 
 	input = [][]string{{"A", "A", "A", "A", "A"}, {"A", "A", "A", "A", "A"}, {"A", "A", "A", "A", "A"}, {"A", "A", "A", "A", "A"}, {"A", "A", "A", "A", "A"}}
 
-	output = CanLookVertically(input, 4, 3)
+	output = CanLookVertically(input, 4, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
@@ -205,7 +205,7 @@ func TestCanLookVertically_ReturnsTrueForValidArrayIndex(test *testing.T) {
 func TestCanLookBackwards_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 	input := [][]string{{}}
 
-	output := CanLookBackwards(input, 0, 0)
+	output := CanLookBackwards(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -213,13 +213,13 @@ func TestCanLookBackwards_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A"}, {"B", "B"}, {"C", "C"}, {"D", "D"}}
 
-	output = CanLookBackwards(input, 0, 0)
+	output = CanLookBackwards(input, 0, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookBackwards(input, 0, 1)
+	output = CanLookBackwards(input, 0, 1, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -227,7 +227,7 @@ func TestCanLookBackwards_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A", "A"}, {"B", "B", "B"}, {"C", "C", "C"}, {"D", "D", "C"}}
 
-	output = CanLookBackwards(input, 0, 2)
+	output = CanLookBackwards(input, 0, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -235,7 +235,7 @@ func TestCanLookBackwards_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 
 	input = [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output = CanLookBackwards(input, 1, 2)
+	output = CanLookBackwards(input, 1, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -245,25 +245,25 @@ func TestCanLookBackwards_ReturnsFalseForGridNotBigEnough(test *testing.T) {
 func TestCanLookBackwards_ReturnsTrueForValidArrayIndex(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookBackwards(input, 0, 3)
+	output := CanLookBackwards(input, 0, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookBackwards(input, 1, 3)
+	output = CanLookBackwards(input, 1, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookBackwards(input, 2, 3)
+	output = CanLookBackwards(input, 2, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookBackwards(input, 3, 3)
+	output = CanLookBackwards(input, 3, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
@@ -273,19 +273,19 @@ func TestCanLookBackwards_ReturnsTrueForValidArrayIndex(test *testing.T) {
 func TestCanLookDiagonallyTopLeft_ReturnsTrueFalseForIfInBounds(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookDiagonallyTopLeft(input, 3, 3)
+	output := CanLookDiagonallyTopLeft(input, 3, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyTopLeft(input, 2, 3)
+	output = CanLookDiagonallyTopLeft(input, 2, 3, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyTopLeft(input, 3, 0)
+	output = CanLookDiagonallyTopLeft(input, 3, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -295,25 +295,25 @@ func TestCanLookDiagonallyTopLeft_ReturnsTrueFalseForIfInBounds(test *testing.T)
 func TestCanLookDiagonallyTopRight_ReturnsTrueFalseForIfInBounds(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookDiagonallyTopRight(input, 3, 0)
+	output := CanLookDiagonallyTopRight(input, 3, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyTopRight(input, 3, 1)
+	output = CanLookDiagonallyTopRight(input, 3, 1, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyTopRight(input, 3, 2)
+	output = CanLookDiagonallyTopRight(input, 3, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyTopRight(input, 2, 0)
+	output = CanLookDiagonallyTopRight(input, 2, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -323,25 +323,25 @@ func TestCanLookDiagonallyTopRight_ReturnsTrueFalseForIfInBounds(test *testing.T
 func TestCanLookDiagonallyBottomLeft_ReturnsTrueFalseForIfInBounds(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookDiagonallyBottomLeft(input, 0, 3)
+	output := CanLookDiagonallyBottomLeft(input, 0, 3, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomLeft(input, 0, 1)
+	output = CanLookDiagonallyBottomLeft(input, 0, 1, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomLeft(input, 0, 2)
+	output = CanLookDiagonallyBottomLeft(input, 0, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomLeft(input, 2, 0)
+	output = CanLookDiagonallyBottomLeft(input, 2, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -351,25 +351,25 @@ func TestCanLookDiagonallyBottomLeft_ReturnsTrueFalseForIfInBounds(test *testing
 func TestCanLookDiagonallyBottomRight_ReturnsTrueFalseForIfInBounds(test *testing.T) {
 	input := [][]string{{"A", "A", "A", "A"}, {"B", "B", "B", "B"}, {"C", "C", "C", "C"}, {"D", "D", "D", "D"}}
 
-	output := CanLookDiagonallyBottomRight(input, 0, 0)
+	output := CanLookDiagonallyBottomRight(input, 0, 0, 3)
 
 	if output != true {
 		test.Errorf("Expected: true, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomRight(input, 0, 1)
+	output = CanLookDiagonallyBottomRight(input, 0, 1, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomRight(input, 0, 2)
+	output = CanLookDiagonallyBottomRight(input, 0, 2, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
 	}
 
-	output = CanLookDiagonallyBottomRight(input, 2, 0)
+	output = CanLookDiagonallyBottomRight(input, 2, 0, 3)
 
 	if output != false {
 		test.Errorf("Expected: false, Received: %v", output)
@@ -408,5 +408,76 @@ MXMXAXMASX`
 
 	if output != 18 {
 		test.Errorf("Expected: 18, Received: %d", output)
+	}
+}
+
+func TestIsAValidX_ReturnsTrueForValidX(test *testing.T) {
+	input := `M.S
+.A.
+M.S`
+
+	wordSearchGrid := StringTo2DArray(input)
+
+	output := IsAValidX(wordSearchGrid, 1, 1)
+
+	if output != true {
+		test.Errorf("Expected: true, Received: %v", output)
+	}
+
+	input = `M.M
+.A.
+S.S`
+	
+	wordSearchGrid = StringTo2DArray(input)
+
+	output = IsAValidX(wordSearchGrid, 1, 1)
+
+	if output != true {
+		test.Errorf("Expected: true, Received: %v", output)
+	}
+
+	input = `S.S
+.A.
+M.M`
+	
+	wordSearchGrid = StringTo2DArray(input)
+
+	output = IsAValidX(wordSearchGrid, 1, 1)
+
+	if output != true {
+		test.Errorf("Expected: true, Received: %v", output)
+	}
+
+	input = `S.M
+.A.
+S.M`
+	
+	wordSearchGrid = StringTo2DArray(input)
+
+	output = IsAValidX(wordSearchGrid, 1, 1)
+
+	if output != true {
+		test.Errorf("Expected: true, Received: %v", output)
+	}
+}
+
+func TestCheckTheX_Part2_ReturnsTotalXs(test *testing.T) {
+	input := `.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+..........`
+
+	wordSearchGrid := StringTo2DArray(input)
+
+	output := CheckTheX_Part2(wordSearchGrid)
+
+	if output != 9 {
+		test.Errorf("Expected: 9, Received: %d", output)
 	}
 }
