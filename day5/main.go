@@ -22,9 +22,9 @@ func main() {
 	fmt.Printf("Day 5, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day 5, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 5, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -33,7 +33,9 @@ func Part1(input string) int {
 	orderRulesList, pagesToProduceList := GenerateOrderRulesAndPagesToProduceLists(input)
 
 	for i := 0; i < len(pagesToProduceList); i++ {
-		if IsUpdateInRightOrder(orderRulesList, pagesToProduceList[i]) {
+		result, _ := IsUpdateInRightOrder(orderRulesList, pagesToProduceList[i])
+
+		if result {
 			middleNum := FindMiddlePageNumber(pagesToProduceList[i])
 
 			total += middleNum
@@ -43,7 +45,29 @@ func Part1(input string) int {
 	return total
 }
 
-func Part2() {}
+func Part2(input string) int {
+	total := 0
+
+	orderRulesList, pagesToProduceList := GenerateOrderRulesAndPagesToProduceLists(input)
+
+	var incorrectOrderedUpdates [][]int
+
+	for i := 0; i < len(pagesToProduceList); i++ {
+		result, reOrderedUpdate := IsUpdateInRightOrder(orderRulesList, pagesToProduceList[i])
+
+		if !result {
+			incorrectOrderedUpdates = append(incorrectOrderedUpdates, reOrderedUpdate)
+		}
+	}
+
+	for i := 0; i < len(incorrectOrderedUpdates); i++ {
+		middleNum := FindMiddlePageNumber(incorrectOrderedUpdates[i])
+
+		total += middleNum
+	}
+
+	return total
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
@@ -88,9 +112,9 @@ func GenerateOrderRulesAndPagesToProduceLists(input string) ([][]int, [][]int) {
 	return finalOrderRulesList, finalPagesToProduceList
 }
 
-func IsUpdateInRightOrder(ruleList [][]int, pagesList []int) bool {
+func IsUpdateInRightOrder(ruleList [][]int, pagesList []int) (bool, []int) {
 	// Directed graph problem!
-	
+
 	isUpdateInRightOrder := false
 
 	// Start a map with pages set to 0
@@ -132,19 +156,27 @@ func IsUpdateInRightOrder(ruleList [][]int, pagesList []int) bool {
 		sortedKeys = append(sortedKeys, pair.Key)
 	}
 
+	isSortedFully := false
+
 	// Now compare the 2 lists, if in same order as the originally given pageList, then the update is in the right order, false if not
 	for i := 0; i < len(sortedKeys); i++ {
 		if len(sortedKeys) == len(pagesList) {
 			if sortedKeys[i] == pagesList[i] {
 				isUpdateInRightOrder = true
+				isSortedFully = true
 			} else {
 				isUpdateInRightOrder = false
+				isSortedFully = false
 				break
 			}
 		}
 	}
 
-	return isUpdateInRightOrder
+	if !isSortedFully {
+		return isUpdateInRightOrder, sortedKeys
+	}
+
+	return isUpdateInRightOrder, []int{}
 }
 
 func GenerateInDegreeMap(pagesList []int) map[int]int {
