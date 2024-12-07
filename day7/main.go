@@ -21,9 +21,9 @@ func main() {
 	fmt.Printf("Day 7, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day 7, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 7, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -50,7 +50,29 @@ func Part1(input string) int {
 	return total
 }
 
-func Part2() {}
+func Part2(input string) int {
+	total := 0
+
+	equationsList := StringTo2DIntArray(input)
+
+	for i := 0; i <len(equationsList); i++ {
+		equationsListWithoutTestValue := equationsList[i][1:]
+
+		operatorsToTry := []string{"+", "*", "||"}
+
+		testValue := GetTestValue(equationsList[i])
+
+		combosToTry := GenerateCombinationsToTry(equationsListWithoutTestValue, operatorsToTry)
+
+		isEquationTrue := CanEquationBeMadeTrue(combosToTry, testValue)
+
+		if isEquationTrue {
+			total = total + testValue
+		}
+	}
+
+	return total
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
@@ -141,6 +163,16 @@ func CanEquationBeMadeTrue(combosToTry []string, testValue int) bool {
 				num, _ := strconv.Atoi(splitCombo[1])
 
 				currentTotal = currentTotal + num
+			}
+
+			if splitCombo[0] == "||" {
+				totalAsStr := strconv.Itoa(currentTotal)
+
+				totalAsStr = totalAsStr + splitCombo[1]
+
+				convertedTotalBack, _ := strconv.Atoi(totalAsStr)
+
+				currentTotal = convertedTotalBack
 			}
 
 			splitCombo = splitCombo[2:]
