@@ -13,3 +13,4 @@
 [![Day](https://badgen.net/badge/03/%E2%98%85%E2%98%85/green)](day3/)
 [![Day](https://badgen.net/badge/04/%E2%98%85%E2%98%85/green)](day4/)
 [![Day](https://badgen.net/badge/05/%E2%98%85%E2%98%85/green)](day5/)
+[![Day](https://badgen.net/badge/06/%E2%98%85/green)](day6/)
