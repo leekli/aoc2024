@@ -21,9 +21,9 @@ func main() {
 	fmt.Printf("Day 8, Part 1 Output: %d\n", p1Output)
 
 	// Part 2
-	//p2Output := Part2(rawInput)
+	p2Output := Part2(rawInput)
 
-	//fmt.Printf("Day 8, Part 2 Output: %d\n", p2Output)	
+	fmt.Printf("Day 8, Part 2 Output: %d\n", p2Output)	
 }
 
 func Part1(input string) int {
@@ -81,7 +81,79 @@ func Part1(input string) int {
 	return total
 }
 
-func Part2() {}
+func Part2(input string) int {
+	// do the same as part 1
+	// still need get the XY difference
+	// still want to go back, but want to keep going back while still within bounds, not just back once then add the antinode to antimode map
+	// same for forwards
+
+	total := 0
+
+	mainMap := StringTo2DArray(input)
+	antiNodeMap := CreateAntiNodeMap(mainMap)
+
+	antennaLocations := BuildAntennaLocationsDict(mainMap)
+
+	for key, _ := range antennaLocations {
+		for len(antennaLocations[key]) != 0 {
+			firstLoc := antennaLocations[key][0]
+
+			for i := 1; i < len(antennaLocations[key]); i++ {
+				secondLoc := antennaLocations[key][i]
+
+				difference := GetXYDifferenceBetweenTwoAntennas(firstLoc, secondLoc)
+
+				keepGoingBack := true
+				backwardsLoc := firstLoc
+
+				for keepGoingBack {
+					AddAntiNodeToMap(antiNodeMap, backwardsLoc[0], backwardsLoc[1])
+
+					locIfGoingBack := GetLocationIfAntennaGoesBackwards(backwardsLoc, difference)
+
+					isBackWithinBounds := IsNewRowAndColWithinBounds(mainMap, locIfGoingBack[0], locIfGoingBack[1])
+
+					if isBackWithinBounds {
+						AddAntiNodeToMap(antiNodeMap, locIfGoingBack[0], locIfGoingBack[1])
+
+						backwardsLoc = locIfGoingBack
+					}
+					
+					if !isBackWithinBounds {
+						keepGoingBack = false
+					}
+				}
+
+				keepGoingForward := true
+				forwardsLoc := secondLoc
+
+				for keepGoingForward {
+					AddAntiNodeToMap(antiNodeMap, forwardsLoc[0], forwardsLoc[1])
+					locIfGoingForward := GetLocationIfAntennaGoesForwards(forwardsLoc, difference)
+
+					isForwardWithinBounds := IsNewRowAndColWithinBounds(mainMap, locIfGoingForward[0], locIfGoingForward[1])
+
+					if isForwardWithinBounds {
+						AddAntiNodeToMap(antiNodeMap, locIfGoingForward[0], locIfGoingForward[1])
+
+						forwardsLoc = locIfGoingForward
+					}	
+
+					if !isForwardWithinBounds {
+						keepGoingForward = false
+					}
+				}
+
+			}
+
+			antennaLocations[key] = antennaLocations[key][1:]
+		}
+	}
+
+	total = CountAllAntiNodeLocations(antiNodeMap)
+
+	return total
+}
 
 func readFileToString(filePath string) (string, error) {
 	content, err := os.ReadFile(filePath)
